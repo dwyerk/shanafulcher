@@ -31,6 +31,10 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/index.css">
   
+  <!-- Preloads for Performance -->
+  <link rel="preload" href="/images/shana_portrait.webp" as="image" type="image/webp">
+  <link rel="preload" href="/data/posts.json" as="fetch" crossorigin>
+  
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍁</text></svg>">
 </head>
@@ -92,7 +96,10 @@
           </div>
           <div class="hero-visual">
             <div class="image-wrapper">
-              <img src="/images/shana_portrait.jpg" alt="Shana Fulcher Portrait" class="hero-portrait-img">
+              <picture>
+                <source srcset="/images/shana_portrait.webp" type="image/webp">
+                <img src="/images/shana_portrait.jpg" alt="Shana Fulcher Portrait" class="hero-portrait-img" width="800" height="1200">
+              </picture>
             </div>
           </div>
         </div>
@@ -385,7 +392,10 @@
             
             <!-- Context Image of Shana in the community -->
             <div class="contact-image-wrapper">
-              <img src="/images/shana_walking.jpg" alt="Shana Fulcher walking in Takoma Park" class="contact-shana-img">
+              <picture>
+                <source srcset="/images/shana_walking.webp" type="image/webp">
+                <img src="/images/shana_walking.jpg" alt="Shana Fulcher walking in Takoma Park" class="contact-shana-img" loading="lazy" width="800" height="546">
+              </picture>
             </div>
           </div>
           
