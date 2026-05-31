@@ -144,22 +144,37 @@ function initTheme() {
   const storedTheme = localStorage.getItem('theme');
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+  const setDarkTheme = () => {
+    document.documentElement.classList.add('dark-theme');
+    document.documentElement.classList.remove('light-theme');
     document.body.classList.add('dark-theme');
     document.body.classList.remove('light-theme');
     themeToggleBtn.setAttribute('aria-label', 'Switch to light theme');
-  } else {
+  };
+
+  const setLightTheme = () => {
+    document.documentElement.classList.remove('dark-theme');
+    document.documentElement.classList.add('light-theme');
     document.body.classList.remove('dark-theme');
     document.body.classList.add('light-theme');
     themeToggleBtn.setAttribute('aria-label', 'Switch to dark theme');
+  };
+
+  if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+    setDarkTheme();
+  } else {
+    setLightTheme();
   }
 
   themeToggleBtn.addEventListener('click', () => {
-    const isDark = document.body.classList.toggle('dark-theme');
-    document.body.classList.toggle('light-theme', !isDark);
-    
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    themeToggleBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    if (isDark) {
+      setLightTheme();
+      localStorage.setItem('theme', 'light');
+    } else {
+      setDarkTheme();
+      localStorage.setItem('theme', 'dark');
+    }
   });
 }
 

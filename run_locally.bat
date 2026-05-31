@@ -9,4 +9,4 @@ start http://localhost:8000
 echo.
 echo Running server. Press Ctrl+C in this window to stop.
 echo.
-python -m http.server 8000
+node serve-locally.js

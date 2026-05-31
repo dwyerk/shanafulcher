@@ -49,6 +49,8 @@
 }
 
 /* Dark Theme Overrides */
+:root.dark-theme,
+html.dark-theme,
 body.dark-theme {
   --bg-main: #0F172A;             /* Slate Dark */
   --bg-card: rgba(30, 41, 59, 0.75);
@@ -56,7 +58,7 @@ body.dark-theme {
   --bg-input: #1E293B;
   --text-main: #E2E8F0;           /* Soft White-Gray */
   --text-muted: #94A3B8;
-  --text-inverse: #0F172A;
+  --text-inverse: #FFFFFF;        /* Keep inverse text white/legible on dark backgrounds */
   --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.25);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
   --glass-bg: rgba(15, 23, 42, 0.85);
@@ -1196,13 +1198,16 @@ body.dark-theme .platform-header h2 {
 /* ==========================================================================
    READING DIALOG (MODAL OVERLAY)
    ========================================================================== */
-.post-dialog-modal {
-  border: none;
-  background: none;
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
+.post-dialog-modal,
+.post-dialog-modal:modal {
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -1213,12 +1218,14 @@ body.dark-theme .platform-header h2 {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s var(--transition-ease);
+  color: var(--text-main) !important;
+  box-shadow: none !important;
 }
 
 .post-dialog-modal[open] {
   opacity: 1;
   pointer-events: auto;
-  display: flex;
+  display: flex !important;
 }
 
 .post-dialog-modal::backdrop {
@@ -1237,7 +1244,8 @@ body.dark-theme .platform-header h2 {
   width: 90%;
   max-width: 800px;
   height: 85vh;
-  background-color: var(--bg-main);
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
   border: 1px solid var(--bg-card-border);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-lg);
@@ -1256,6 +1264,8 @@ body.dark-theme .platform-header h2 {
   padding: var(--space-xl) var(--space-xl) var(--space-md);
   border-bottom: 1px solid var(--bg-card-border);
   position: relative;
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
 }
 
 .close-modal-btn {
@@ -1291,6 +1301,7 @@ body.dark-theme .platform-header h2 {
   font-size: clamp(1.5rem, 4vw, 2.2rem);
   margin-bottom: var(--space-sm);
   padding-right: 2.5rem;
+  color: var(--text-main) !important;
 }
 
 .modal-meta {
@@ -1310,9 +1321,22 @@ body.dark-theme .platform-header h2 {
   flex-grow: 1;
   font-size: 1.05rem;
   line-height: 1.8;
+  color: var(--text-main) !important;
+  background-color: var(--bg-main) !important;
 }
 
 /* Style injected blog content inside modal */
+.modal-body-content p,
+.modal-body-content li,
+.modal-body-content span,
+.modal-body-content div,
+.modal-body-content em,
+.modal-body-content i,
+.modal-body-content ul,
+.modal-body-content ol {
+  color: var(--text-main) !important;
+}
+
 .modal-body-content p {
   margin-bottom: var(--space-lg);
 }
@@ -1329,11 +1353,19 @@ body.dark-theme .platform-header h2 {
 
 .modal-body-content strong {
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-primary) !important;
 }
 
 body.dark-theme .modal-body-content strong {
-  color: #FFFFFF;
+  color: #FFFFFF !important;
+}
+
+.modal-body-content a {
+  color: var(--color-accent) !important;
+}
+
+.modal-body-content a:hover {
+  color: var(--color-accent-hover) !important;
 }
 
 .modal-body-content h1, 
@@ -1344,6 +1376,15 @@ body.dark-theme .modal-body-content strong {
   margin-top: var(--space-xl);
   margin-bottom: var(--space-sm);
   font-family: var(--font-serif);
+  color: var(--color-primary) !important;
+}
+
+body.dark-theme .modal-body-content h1, 
+body.dark-theme .modal-body-content h2, 
+body.dark-theme .modal-body-content h3, 
+body.dark-theme .modal-body-content h4, 
+body.dark-theme .modal-body-content h5 {
+  color: #FFFFFF !important;
 }
 
 .modal-body-content h1 { font-size: 1.75rem; }
@@ -1355,7 +1396,7 @@ body.dark-theme .modal-body-content strong {
   border-top: 1px solid var(--bg-card-border);
   display: flex;
   justify-content: flex-end;
-  background-color: var(--bg-card);
+  background-color: var(--bg-card) !important;
 }
 
 /* ==========================================================================
