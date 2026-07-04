@@ -31,15 +31,66 @@ const pageTitles = {
 };
 
 /* ==========================================================================
+   UTM PARAMETER CAPTURE & OUTBOUND LINKS
+   ========================================================================== */
+function captureUtmParameters() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of urlParams.entries()) {
+      const lowerKey = key.toLowerCase();
+      if (lowerKey.startsWith('utm_') || lowerKey === 'refcode') {
+        sessionStorage.setItem(key, value);
+      }
+    }
+  } catch (e) {
+    console.error('Error capturing UTM parameters:', e);
+  }
+}
+
+function updateActBlueLinks() {
+  try {
+    // Gather all UTM/refcode parameters from sessionStorage
+    const storedParams = {};
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      const lowerKey = key.toLowerCase();
+      if (lowerKey.startsWith('utm_') || lowerKey === 'refcode') {
+        storedParams[key] = sessionStorage.getItem(key);
+      }
+    }
+
+    if (Object.keys(storedParams).length === 0) return;
+
+    // Select all links that point to ActBlue
+    const actBlueLinks = document.querySelectorAll('a[href*="actblue.com"]');
+    actBlueLinks.forEach(link => {
+      try {
+        const url = new URL(link.href, window.location.origin);
+        for (const [key, val] of Object.entries(storedParams)) {
+          url.searchParams.set(key, val);
+        }
+        link.href = url.toString();
+      } catch (err) {
+        // Ignore parsing errors for malformed or relative URLs
+      }
+    });
+  } catch (e) {
+    console.error('Error updating ActBlue links:', e);
+  }
+}
+
+/* ==========================================================================
    INITIALIZATION & ROUTER
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  captureUtmParameters();
   initTheme();
   initRouter();
   initMobileMenu();
   loadBlogData();
   setupFormSubmissions();
   setupScrollAnimations();
+  updateActBlueLinks();
 });
 
 // Client-side Router
@@ -127,6 +178,7 @@ function handleRouting(path) {
       setTimeout(() => clearInterval(checkInterval), 3000);
     }
   }
+  updateActBlueLinks();
 }
 
 function updateNavActiveState(path) {
@@ -223,6 +275,8 @@ async function loadBlogData() {
     // Render full blog lists
     renderBlogPosts();
     setupBlogControls();
+    
+    updateActBlueLinks();
 
   } catch (err) {
     console.error(err);
@@ -416,6 +470,7 @@ function openPostById(id) {
 
   modalBody.innerHTML = tempDiv.innerHTML;
   modalBody.scrollTop = 0;
+  updateActBlueLinks();
 
   // Show modal using native dialog API
   modal.showModal();
