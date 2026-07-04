@@ -94,6 +94,68 @@ function makeAbsoluteUrl(urlPath) {
   return `https://www.shanafulcher.com${normalizedPath}`;
 }
 
+// XML escaping helper
+function escapeXml(unsafe) {
+  return (unsafe || '').replace(/[<>&'"]/g, (c) => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+}
+
+// Generate RSS 2.0 XML file
+function generateRssFeed(posts) {
+  console.log('Generating RSS feed...');
+  
+  const siteUrl = 'https://www.shanafulcher.com';
+  const feedUrl = `${siteUrl}/rss.xml`;
+  const lastBuildDate = new Date().toUTCString();
+  
+  // Find latest post date for pubDate of channel
+  let pubDate = lastBuildDate;
+  if (posts.length > 0 && posts[0].raw_date) {
+    pubDate = posts[0].raw_date;
+  }
+  
+  let rssXml = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Shana Fulcher for Takoma Park City Council (Ward 1) - Updates</title>
+  <link>${siteUrl}/updates</link>
+  <description>Stay informed. Search and browse campaign announcements, legislative analysis, and community updates from Ward 1.</description>
+  <language>en-us</language>
+  <pubDate>${pubDate}</pubDate>
+  <lastBuildDate>${lastBuildDate}</lastBuildDate>
+  <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />
+`;
+
+  posts.forEach(post => {
+    const postUrl = `${siteUrl}/post/${post.id}`;
+    const cleanTitle = escapeXml(post.title);
+    const cleanExcerptText = cleanExcerpt(post.excerpt);
+    
+    rssXml += `  <item>
+    <title>${cleanTitle}</title>
+    <link>${postUrl}</link>
+    <guid isPermaLink="true">${postUrl}</guid>
+    <pubDate>${post.raw_date || lastBuildDate}</pubDate>
+    <description><![CDATA[${cleanExcerptText}]]></description>
+  </item>
+`;
+  });
+
+  rssXml += `</channel>
+</rss>`;
+
+  const rssOutputPath = path.join(__dirname, 'rss.xml');
+  fs.writeFileSync(rssOutputPath, rssXml, 'utf8');
+  console.log(`Successfully generated RSS feed at ${rssOutputPath}`);
+}
+
 function compilePosts() {
   console.log('Compiling Markdown posts...');
 
@@ -271,6 +333,9 @@ function compilePosts() {
   fs.writeFileSync(outputFilePath, JSON.stringify(posts, null, 2), 'utf8');
   console.log(`Successfully compiled ${posts.length} posts to ${outputFilePath}`);
   console.log(`Successfully generated static HTML pages in ${postOutputDir}`);
+
+  // Generate RSS feed
+  generateRssFeed(posts);
 }
 
 compilePosts();
