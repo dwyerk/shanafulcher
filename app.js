@@ -468,6 +468,9 @@ function openPostById(id) {
     }
   }
 
+  // Optimize dynamic images inside the blog post
+  optimizeImages(tempDiv);
+
   modalBody.innerHTML = tempDiv.innerHTML;
   modalBody.scrollTop = 0;
   updateActBlueLinks();
@@ -595,5 +598,49 @@ function setupScrollAnimations() {
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
       el.classList.add('animated');
     });
+  }
+}
+
+/* ==========================================================================
+   IMAGE OPTIMIZATION FOR DYNAMIC CONTENT
+   ========================================================================== */
+function optimizeImages(container) {
+  try {
+    const images = container.querySelectorAll('img');
+    images.forEach(img => {
+      // Avoid nesting if already wrapped in a picture element
+      if (img.parentElement && img.parentElement.tagName.toLowerCase() === 'picture') {
+        if (!img.hasAttribute('loading')) {
+          img.setAttribute('loading', 'lazy');
+        }
+        return;
+      }
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      // Handle standard campaign image file extensions
+      if (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png')) {
+        const webpSrc = src.replace(/\.(jpe?g|png)$/i, '.webp');
+        
+        const picture = document.createElement('picture');
+        const source = document.createElement('source');
+        source.setAttribute('srcset', webpSrc);
+        source.setAttribute('type', 'image/webp');
+        
+        const newImg = img.cloneNode(true);
+        newImg.setAttribute('loading', 'lazy');
+        
+        picture.appendChild(source);
+        picture.appendChild(newImg);
+        
+        img.parentNode.replaceChild(picture, img);
+      } else {
+        // Fallback for non-campaign images: ensure they lazy-load
+        img.setAttribute('loading', 'lazy');
+      }
+    });
+  } catch (e) {
+    console.error('Error optimizing images in container:', e);
   }
 }
