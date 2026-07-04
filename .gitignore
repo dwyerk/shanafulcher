@@ -29,3 +29,9 @@ yarn-debug.log*
 yarn-error.log*
 logs/
 *.log
+
+# Mirror archive directory
+archive/
+
+# Generated static posts
+post/

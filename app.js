@@ -78,6 +78,9 @@ function handleRouting(path) {
   if (path.startsWith('/post/')) {
     targetView = 'view-updates';
     postIdToOpen = path.replace('/post/', '');
+    if (postIdToOpen.endsWith('/')) {
+      postIdToOpen = postIdToOpen.slice(0, -1);
+    }
   }
 
   // Fallback to home if route not found
@@ -412,6 +415,7 @@ function openPostById(id) {
   }
 
   modalBody.innerHTML = tempDiv.innerHTML;
+  modalBody.scrollTop = 0;
 
   // Show modal using native dialog API
   modal.showModal();

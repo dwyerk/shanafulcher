@@ -4,6 +4,18 @@ const path = require('path');
 
 const PORT = 8000;
 
+// Resolve the archive directory path
+let archiveDir = path.join(__dirname, 'archive');
+
+// Allow overriding via environment variable or command-line arguments (e.g. node serve-locally.js --archive-dir /path/to/backup/archive)
+const archiveDirArgIndex = process.argv.indexOf('--archive-dir');
+if (archiveDirArgIndex !== -1 && process.argv[archiveDirArgIndex + 1]) {
+  archiveDir = path.resolve(process.argv[archiveDirArgIndex + 1]);
+} else if (process.env.ARCHIVE_DIR) {
+  archiveDir = path.resolve(process.env.ARCHIVE_DIR);
+}
+
+
 const MIME_TYPES = {
   '.html': 'text/html',
   '.css': 'text/css',
@@ -15,6 +27,8 @@ const MIME_TYPES = {
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
 };
 
 const server = http.createServer((req, res) => {
@@ -29,13 +43,53 @@ const server = http.createServer((req, res) => {
     urlPath = urlPath.substring(0, hashIndex);
   }
 
-  let filePath = path.join(__dirname, urlPath === '/' ? 'index.html' : urlPath);
-  let ext = path.extname(filePath).toLowerCase();
+  if (urlPath === '/archive') {
+    res.writeHead(301, { 'Location': '/archive/' });
+    res.end();
+    return;
+  }
 
-  // If there's no extension, it's a client-side route. Fall back to index.html.
-  if (!ext) {
-    filePath = path.join(__dirname, 'index.html');
-    ext = '.html';
+  let filePath;
+  let ext;
+
+  const isArchiveRequest = urlPath.startsWith('/archive/') || urlPath === '/archive';
+
+  if (isArchiveRequest) {
+    let archiveSubPath = urlPath.slice(8); // Remove '/archive'
+    if (archiveSubPath.startsWith('/')) {
+      archiveSubPath = archiveSubPath.slice(1);
+    }
+    if (archiveSubPath === '') {
+      archiveSubPath = 'index.html';
+    }
+
+    filePath = path.join(archiveDir, archiveSubPath);
+    ext = path.extname(filePath).toLowerCase();
+
+    if (!ext) {
+      const potentialIndexPath = path.join(filePath, 'index.html');
+      if (fs.existsSync(potentialIndexPath)) {
+        filePath = potentialIndexPath;
+        ext = '.html';
+      } else {
+        filePath = filePath + '.html';
+        ext = '.html';
+      }
+    }
+  } else {
+    filePath = path.join(__dirname, urlPath === '/' ? 'index.html' : urlPath);
+    ext = path.extname(filePath).toLowerCase();
+
+    if (!ext) {
+      const potentialIndexPath = path.join(filePath, 'index.html');
+      if (fs.existsSync(potentialIndexPath)) {
+        filePath = potentialIndexPath;
+        ext = '.html';
+      } else {
+        filePath = path.join(__dirname, 'index.html');
+        ext = '.html';
+      }
+    }
   }
 
   fs.readFile(filePath, (error, content) => {
@@ -72,6 +126,7 @@ server.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`Local SPA development server running at http://localhost:${PORT}/`);
   console.log(`Supporting page refreshes for routes like /updates`);
+  console.log(`Serving archive from: ${archiveDir}`);
   console.log(`Press Ctrl+C to stop.`);
   console.log(`=======================================================`);
 });
