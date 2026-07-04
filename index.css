@@ -1756,3 +1756,106 @@ body.dark-theme .site-footer {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ==========================================================================
+   404 ERROR PAGE STYLING
+   ========================================================================== */
+.error-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg);
+  min-height: calc(100vh - 350px);
+  text-align: center;
+}
+
+.error-container {
+  max-width: 600px;
+  width: 100%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-3xl) var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.error-badge {
+  display: inline-block;
+  background-color: var(--color-rose-pastel);
+  color: var(--color-accent-hover);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--space-lg);
+}
+
+body.dark-theme .error-badge {
+  background-color: rgba(229, 92, 94, 0.15);
+  color: var(--color-rose-light);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(6deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.floating-icon {
+  font-size: 4.5rem;
+  margin-bottom: var(--space-md);
+  display: inline-block;
+  animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 10px 15px rgba(229, 92, 94, 0.3));
+}
+
+.error-title {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+  margin-bottom: var(--space-md);
+}
+
+.error-subtitle {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-lg);
+}
+
+body.dark-theme .error-subtitle {
+  color: var(--text-main);
+}
+
+.error-text {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2xl);
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .error-actions {
+    flex-direction: row;
+  }
+}
+

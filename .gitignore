@@ -34,4 +34,4 @@ logs/
 archive/
 
 # Generated static posts
-post/
+posts/*/

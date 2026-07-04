@@ -125,10 +125,10 @@ function handleRouting(path) {
   let targetView = routes[path];
   let postIdToOpen = null;
 
-  // Handle post detail route: /post/:id
-  if (path.startsWith('/post/')) {
+  // Handle post detail route: /posts/:id
+  if (path.startsWith('/posts/')) {
     targetView = 'view-updates';
-    postIdToOpen = path.replace('/post/', '');
+    postIdToOpen = path.replace('/posts/', '');
     if (postIdToOpen.endsWith('/')) {
       postIdToOpen = postIdToOpen.slice(0, -1);
     }
@@ -185,7 +185,7 @@ function updateNavActiveState(path) {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('active');
     const href = link.getAttribute('href');
-    if (href === path || (path.startsWith('/post/') && href === '/updates')) {
+    if (href === path || (path.startsWith('/posts/') && href === '/updates')) {
       link.classList.add('active');
     }
   });
@@ -333,7 +333,7 @@ function renderHomeTeaser() {
 
   if (teaserReadMore) {
     teaserReadMore.addEventListener('click', () => {
-      navigate(`/post/${latest.id}`);
+      navigate(`/posts/${latest.id}`);
     });
   }
 }
@@ -388,7 +388,7 @@ function renderBlogPosts() {
       </div>
       <h3 class="blog-card-title">${post.title}</h3>
       <p class="blog-card-excerpt">${cleanExcerpt}</p>
-      <a href="/post/${post.id}" class="card-link read-post-link" data-post-id="${post.id}">Read full notes &rarr;</a>
+      <a href="/posts/${post.id}" class="card-link read-post-link" data-post-id="${post.id}">Read full notes &rarr;</a>
     `;
 
     container.appendChild(card);
@@ -399,7 +399,7 @@ function renderBlogPosts() {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const id = link.getAttribute('data-post-id');
-      navigate(`/post/${id}`);
+      navigate(`/posts/${id}`);
     });
   });
 }

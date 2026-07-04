@@ -65,9 +65,9 @@ function getMetaDescription(excerpt) {
 
 // Find first image URL in markdown body or use frontmatter
 function findPostImage(metadata, body) {
-  if (metadata.image) return metadata.image;
   if (metadata.og_image) return metadata.og_image;
   if (metadata.ogImage) return metadata.ogImage;
+  if (metadata.image) return metadata.image;
 
   // Search markdown image syntax
   const mdImageMatch = body.match(/!\[.*?\]\((.*?)\)/);
@@ -134,7 +134,7 @@ function generateRssFeed(posts) {
 `;
 
   posts.forEach(post => {
-    const postUrl = `${siteUrl}/post/${post.id}`;
+    const postUrl = `${siteUrl}/posts/${post.id}`;
     const cleanTitle = escapeXml(post.title);
     const cleanExcerptText = cleanExcerpt(post.excerpt);
     
@@ -156,6 +156,51 @@ function generateRssFeed(posts) {
   console.log(`Successfully generated RSS feed at ${rssOutputPath}`);
 }
 
+// Generate standard sitemap.xml
+function generateSitemap(posts) {
+  console.log('Generating Sitemap...');
+  const siteUrl = 'https://www.shanafulcher.com';
+  
+  let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${siteUrl}/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+`;
+
+  posts.forEach(post => {
+    const postUrl = `${siteUrl}/posts/${post.id}`;
+    sitemapXml += `  <url>
+    <loc>${postUrl}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+  });
+
+  sitemapXml += `</urlset>`;
+
+  const sitemapPath = path.join(__dirname, 'sitemap.xml');
+  fs.writeFileSync(sitemapPath, sitemapXml, 'utf8');
+  console.log(`Successfully generated Sitemap at ${sitemapPath}`);
+}
+
+// Generate standard robots.txt
+function generateRobotsTxt() {
+  console.log('Generating robots.txt...');
+  const robotsContent = `User-agent: *
+Allow: /
+
+Sitemap: https://www.shanafulcher.com/sitemap.xml
+`;
+
+  const robotsPath = path.join(__dirname, 'robots.txt');
+  fs.writeFileSync(robotsPath, robotsContent, 'utf8');
+  console.log(`Successfully generated robots.txt at ${robotsPath}`);
+}
+
 function compilePosts() {
   console.log('Compiling Markdown posts...');
 
@@ -169,12 +214,24 @@ function compilePosts() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Clean and recreate postOutputDir to prevent stale generated pages
-  const postOutputDir = path.join(__dirname, 'post');
+  // Clean and recreate postOutputDir safely inside posts/ without deleting the markdown files
+  const postOutputDir = path.join(__dirname, 'posts');
   if (fs.existsSync(postOutputDir)) {
-    fs.rmSync(postOutputDir, { recursive: true, force: true });
+    const items = fs.readdirSync(postOutputDir);
+    items.forEach(item => {
+      const fullPath = path.join(postOutputDir, item);
+      try {
+        const stat = fs.statSync(fullPath);
+        if (stat.isDirectory()) {
+          fs.rmSync(fullPath, { recursive: true, force: true });
+        }
+      } catch (err) {
+        // Handle error gracefully
+      }
+    });
+  } else {
+    fs.mkdirSync(postOutputDir, { recursive: true });
   }
-  fs.mkdirSync(postOutputDir, { recursive: true });
 
   // Read index.html as base template
   const templatePath = path.join(__dirname, 'index.html');
@@ -242,21 +299,23 @@ function compilePosts() {
       const document = dom.window.document;
 
       // 1. Update <title>
-      const fullTitle = `${metadata.title} | Shana Fulcher for Takoma Park City Council (Ward 1)`;
+      const pageTitle = metadata.title || '';
+      const fullTitle = `${pageTitle} | Shana Fulcher for Takoma Park City Council (Ward 1)`;
       document.title = fullTitle;
 
       // 2. Update <meta name="description">
       const cleanDesc = getMetaDescription(metadata.excerpt);
+      const descVal = metadata.description || cleanDesc;
       let descMeta = document.querySelector('meta[name="description"]');
       if (!descMeta) {
         descMeta = document.createElement('meta');
         descMeta.setAttribute('name', 'description');
         document.head.appendChild(descMeta);
       }
-      descMeta.setAttribute('content', cleanDesc);
+      descMeta.setAttribute('content', descVal);
 
       // 3. Update canonical link
-      const postUrl = `https://www.shanafulcher.com/post/${metadata.id}`;
+      const postUrl = `https://www.shanafulcher.com/posts/${metadata.id}`;
       let canonicalLink = document.querySelector('link[rel="canonical"]');
       if (!canonicalLink) {
         canonicalLink = document.createElement('link');
@@ -285,18 +344,22 @@ function compilePosts() {
 
       // 4. Update Open Graph tags
       const postImage = makeAbsoluteUrl(findPostImage(metadata, body));
+      const ogTitleVal = metadata.og_title || metadata.ogTitle || pageTitle;
+      const ogDescVal = metadata.og_description || metadata.ogDescription || descVal;
+      const ogImageVal = metadata.og_image || metadata.ogImage || postImage;
+
       setMetaProperty('og:type', 'article');
       setMetaProperty('og:url', postUrl);
-      setMetaProperty('og:title', metadata.title);
-      setMetaProperty('og:description', cleanDesc);
-      setMetaProperty('og:image', postImage);
+      setMetaProperty('og:title', ogTitleVal);
+      setMetaProperty('og:description', ogDescVal);
+      setMetaProperty('og:image', ogImageVal);
 
       // 5. Update Twitter tags
       setMetaProperty('twitter:card', 'summary_large_image', false);
       setMetaProperty('twitter:url', postUrl, false);
-      setMetaProperty('twitter:title', metadata.title, false);
-      setMetaProperty('twitter:description', cleanDesc, false);
-      setMetaProperty('twitter:image', postImage, false);
+      setMetaProperty('twitter:title', ogTitleVal, false);
+      setMetaProperty('twitter:description', ogDescVal, false);
+      setMetaProperty('twitter:image', ogImageVal, false);
 
       // 6. Pre-render post content inside the reader modal overlay for crawler indexing
       const modalTitleEl = document.getElementById('modal-post-title');
@@ -336,6 +399,10 @@ function compilePosts() {
 
   // Generate RSS feed
   generateRssFeed(posts);
+
+  // Generate Sitemap and Robots.txt
+  generateSitemap(posts);
+  generateRobotsTxt();
 }
 
 compilePosts();
