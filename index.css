@@ -1441,8 +1441,41 @@ body.dark-theme .contrast-list.anti li::before {
 .modal-body-content em,
 .modal-body-content i,
 .modal-body-content ul,
-.modal-body-content ol {
+.modal-body-content ol,
+.modal-body-content blockquote {
   color: var(--text-main) !important;
+}
+
+.modal-body-content blockquote {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--bg-card) !important;
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.modal-body-content blockquote p {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--color-primary) !important;
+}
+
+body.dark-theme .modal-body-content blockquote {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-left-color: var(--color-accent);
+}
+
+body.dark-theme .modal-body-content blockquote p {
+  color: #FFFFFF !important;
+}
+
+.modal-body-content hr {
+  border: none;
+  border-top: 1px solid var(--bg-card-border);
+  margin: var(--space-xl) 0;
 }
 
 .modal-body-content p {
