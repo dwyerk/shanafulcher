@@ -17,7 +17,8 @@ const routes = {
   '/priorities': 'view-priorities',
   '/updates': 'view-updates',
   '/get-involved': 'view-get-involved',
-  '/contact': 'view-contact'
+  '/contact': 'view-contact',
+  '/donate': 'view-donate'
 };
 
 // Page Titles
@@ -27,7 +28,8 @@ const pageTitles = {
   'view-priorities': 'Shana Fulcher for City Council | Priorities',
   'view-updates': 'Shana Fulcher for City Council | Campaign Updates',
   'view-get-involved': 'Shana Fulcher for City Council | Join the Campaign',
-  'view-contact': 'Shana Fulcher for City Council | Contact Shana'
+  'view-contact': 'Shana Fulcher for City Council | Contact Shana',
+  'view-donate': 'Shana Fulcher for City Council | Support the Campaign'
 };
 
 /* ==========================================================================
@@ -61,9 +63,9 @@ function updateActBlueLinks() {
 
     if (Object.keys(storedParams).length === 0) return;
 
-    // Select all links that point to ActBlue
-    const actBlueLinks = document.querySelectorAll('a[href*="actblue.com"]');
-    actBlueLinks.forEach(link => {
+    // Select all links that point to donation providers (ActBlue or Venmo)
+    const donationLinks = document.querySelectorAll('a[href*="actblue.com"], a[href*="venmo.com"]');
+    donationLinks.forEach(link => {
       try {
         const url = new URL(link.href, window.location.origin);
         for (const [key, val] of Object.entries(storedParams)) {
@@ -75,7 +77,7 @@ function updateActBlueLinks() {
       }
     });
   } catch (e) {
-    console.error('Error updating ActBlue links:', e);
+    console.error('Error updating donation links:', e);
   }
 }
 
@@ -90,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadBlogData();
   setupFormSubmissions();
   setupScrollAnimations();
+  setupVenmoCopy();
   updateActBlueLinks();
 });
 
@@ -187,6 +190,55 @@ function updateNavActiveState(path) {
     const href = link.getAttribute('href');
     if (href === path || (path.startsWith('/posts/') && href === '/updates')) {
       link.classList.add('active');
+    }
+  });
+
+  const navDonateBtn = document.getElementById('nav-donate-btn');
+  if (navDonateBtn) {
+    if (path === '/donate') {
+      navDonateBtn.classList.add('active');
+    } else {
+      navDonateBtn.classList.remove('active');
+    }
+  }
+}
+
+/* ==========================================================================
+   VENMO CLIPBOARD COPY HANDLER
+   ========================================================================== */
+function setupVenmoCopy() {
+  const copyBtn = document.getElementById('copy-venmo-btn');
+  const copyBtnText = document.getElementById('copy-btn-text');
+  const handleText = '@shanafulcherforward1';
+
+  if (!copyBtn) return;
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(handleText);
+      } else {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = handleText;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+
+      if (copyBtnText) {
+        const originalText = copyBtnText.textContent;
+        copyBtnText.textContent = 'Copied! ✓';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtnText.textContent = originalText;
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
     }
   });
 }
