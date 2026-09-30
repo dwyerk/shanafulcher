@@ -453,35 +453,63 @@
         <h2 class="page-title">Support the Campaign</h2>
         <p class="lead-text text-center">Every contribution powers our grassroots outreach across Ward 1 — from printing neighborhood materials and hosting community listening sessions to knocking on doors.</p>
 
-        <!-- Venmo Contribution Card -->
+        <!-- Contribution Card -->
         <div class="donate-card animate-on-scroll">
           <div class="donate-header">
-            <div class="venmo-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
-                <path d="M19.5 3c.8 1.3 1.2 2.7 1.2 4.3 0 5.4-4.6 12.4-8.4 17.4H5.8L3 4.2h6l2.1 11.5c1.7-2.8 3.7-7.2 3.7-10.1 0-1.5-.3-2.6-.8-3.4L19.5 3z"/>
+            <div class="donate-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
             </div>
             <div class="donate-header-text">
-              <h3 class="donate-card-title">Contribute with Venmo</h3>
-              <p class="donate-card-subtitle">Fast, secure direct contribution to the campaign</p>
+              <h3 class="donate-card-title">Make a Contribution</h3>
+              <p class="donate-card-subtitle">Grassroots community support for Ward 1</p>
             </div>
           </div>
 
-          <!-- Venmo Recipient Box -->
-          <div class="venmo-recipient-box">
-            <div class="venmo-handle-wrapper">
-              <span class="venmo-label">Venmo Username</span>
-              <span class="venmo-handle" id="venmo-handle-text">@shanafulcherforward1</span>
+          <!-- Personal Message from Shana -->
+          <div class="donation-message-box">
+            <blockquote class="donation-personal-note">
+              “I'd really appreciate your support. If you'd like to make a donation, please email <a href="mailto:fulcher@gmail.com" class="inline-link">fulcher@gmail.com</a> to schedule a pickup or mail your donation to Shana Fulcher for City Council, 7403 Cedar Ave Takoma Park, MD 20912.”
+            </blockquote>
+            <div class="donation-signature">— Shana Fulcher</div>
+          </div>
+
+          <!-- Donation Methods -->
+          <div class="donation-methods-grid">
+            <!-- Method 1: Email Pickup -->
+            <div class="donation-method-card">
+              <div class="method-icon-title">
+                <span class="method-icon" aria-hidden="true">🤝</span>
+                <h4 class="method-title">Schedule a Pickup</h4>
+              </div>
+              <p class="method-desc">Email Shana directly to arrange a convenient time for a pickup in Ward 1.</p>
+              <div class="method-actions">
+                <a href="mailto:fulcher@gmail.com?subject=Campaign%20Donation%20Pickup" class="btn btn-primary method-btn" id="email-pickup-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                  <span>Email fulcher@gmail.com</span>
+                </a>
+              </div>
             </div>
-            <div class="venmo-actions">
-              <button type="button" class="btn btn-secondary btn-copy-venmo" id="copy-venmo-btn" aria-label="Copy Venmo handle to clipboard">
-                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span id="copy-btn-text">Copy Handle</span>
-              </button>
-              <a href="https://www.venmo.com/u/shanafulcherforward1" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-venmo-cta" id="venmo-open-link">
-                <span>Open Venmo</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
+
+            <!-- Method 2: Mail Donation -->
+            <div class="donation-method-card">
+              <div class="method-icon-title">
+                <span class="method-icon" aria-hidden="true">📬</span>
+                <h4 class="method-title">Mail Your Donation</h4>
+              </div>
+              <p class="method-desc">Make checks payable to <strong>Shana Fulcher for City Council</strong> and mail to:</p>
+              <div class="mailing-address-box">
+                <address class="donation-address" id="donation-address-text">
+                  <strong>Shana Fulcher for City Council</strong><br>
+                  7403 Cedar Ave<br>
+                  Takoma Park, MD 20912
+                </address>
+                <button type="button" class="btn btn-secondary btn-copy-address" id="copy-address-btn" aria-label="Copy mailing address to clipboard">
+                  <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span id="copy-address-text">Copy Address</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -507,41 +535,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Step-by-Step Instructions -->
-          <div class="donate-instructions">
-            <h4 class="instructions-title">How to Send Your Contribution</h4>
-            <ol class="instructions-list">
-              <li>
-                <div class="step-num">1</div>
-                <div class="step-content">
-                  <span class="step-title">Open Venmo</span>
-                  <p>Open the Venmo app on your mobile device or navigate to <a href="https://www.venmo.com/u/shanafulcherforward1" target="_blank" rel="noopener noreferrer" class="inline-link">venmo.com/u/shanafulcherforward1</a>.</p>
-                </div>
-              </li>
-              <li>
-                <div class="step-num">2</div>
-                <div class="step-content">
-                  <span class="step-title">Find the Account</span>
-                  <p>Select "Pay or Request", enter <code>@shanafulcherforward1</code>, and confirm the recipient is <strong class="nowrap">Shana Fulcher</strong>.</p>
-                </div>
-              </li>
-              <li>
-                <div class="step-num">3</div>
-                <div class="step-content">
-                  <span class="step-title">Enter Your Amount</span>
-                  <p>Choose any amount you wish to contribute to the campaign.</p>
-                </div>
-              </li>
-              <li>
-                <div class="step-num">4</div>
-                <div class="step-content">
-                  <span class="step-title">Include Required Memo Information</span>
-                  <p>In the "What's this for?" note, please include your <strong>Full Name</strong> and <strong>Mailing Address</strong> (required for campaign finance compliance).</p>
-                </div>
-              </li>
-            </ol>
-          </div>
         </div>
 
         <!-- Campaign Finance & Legal Disclosures Card -->
@@ -555,6 +548,7 @@
             <li>Political contributions are <strong>not tax-deductible</strong> as charitable donations for federal or state income tax purposes.</li>
             <li>Contributions must be made from the donor's own funds and cannot be reimbursed by another individual or entity.</li>
             <li>Donations from foreign nationals who are not lawful permanent residents (green card holders) are prohibited by law.</li>
+            <li>When mailing a check, please include your <strong>Full Name</strong> and <strong>Mailing Address</strong> (required for campaign finance compliance).</li>
           </ul>
           <div class="text-center" style="margin-top: 1.5rem;">
             <p class="disclaimer-badge">Site Paid for and Maintained by Shana Fulcher</p>
@@ -563,7 +557,7 @@
 
         <!-- Alternate Payment / Contact Card -->
         <div class="alternate-donate-card animate-on-scroll">
-          <p>Prefer to contribute by check or have questions about supporting Shana? <a href="/contact" class="inline-link">Reach out directly through our contact page</a> or email <a href="mailto:info@shanafulcher.com" class="inline-link">info@shanafulcher.com</a>.</p>
+          <p>Have questions about supporting Shana or getting involved? <a href="/contact" class="inline-link">Reach out directly through our contact page</a> or email <a href="mailto:fulcher@gmail.com" class="inline-link">fulcher@gmail.com</a>.</p>
         </div>
       </div>
     </section>

@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupFormSubmissions();
   setupScrollAnimations();
   setupVenmoCopy();
+  setupAddressCopy();
   updateActBlueLinks();
 });
 
@@ -239,6 +240,46 @@ function setupVenmoCopy() {
       }
     } catch (err) {
       console.error('Failed to copy text: ', err);
+    }
+  });
+}
+
+/* ==========================================================================
+   MAILING ADDRESS CLIPBOARD COPY HANDLER
+   ========================================================================== */
+function setupAddressCopy() {
+  const copyBtn = document.getElementById('copy-address-btn');
+  const copyBtnText = document.getElementById('copy-address-text');
+  const addressText = 'Shana Fulcher for City Council\n7403 Cedar Ave\nTakoma Park, MD 20912';
+
+  if (!copyBtn) return;
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(addressText);
+      } else {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = addressText;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+
+      if (copyBtnText) {
+        const originalText = copyBtnText.textContent;
+        copyBtnText.textContent = 'Copied! ✓';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtnText.textContent = originalText;
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy address: ', err);
     }
   });
 }
