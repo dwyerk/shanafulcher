@@ -81,12 +81,12 @@ function findPostImage(metadata, body) {
     return htmlImageMatch[1];
   }
 
-  return '/images/shana_portrait.jpg';
+  return '/images/logo_campaign.png';
 }
 
 // Ensure URL is absolute for Open Graph metadata
 function makeAbsoluteUrl(urlPath) {
-  if (!urlPath) return 'https://www.shanafulcher.com/images/shana_portrait.jpg';
+  if (!urlPath) return 'https://www.shanafulcher.com/images/logo_campaign.png';
   if (urlPath.startsWith('http://') || urlPath.startsWith('https://')) {
     return urlPath;
   }
@@ -358,6 +358,16 @@ function compilePosts() {
       setMetaProperty('og:title', ogTitleVal);
       setMetaProperty('og:description', ogDescVal);
       setMetaProperty('og:image', ogImageVal);
+      setMetaProperty('og:image:secure_url', ogImageVal);
+      if (ogImageVal.includes('logo_campaign.png')) {
+        setMetaProperty('og:image:width', '1065');
+        setMetaProperty('og:image:height', '405');
+      } else {
+        const widthEl = document.querySelector('meta[property="og:image:width"]');
+        if (widthEl) widthEl.remove();
+        const heightEl = document.querySelector('meta[property="og:image:height"]');
+        if (heightEl) heightEl.remove();
+      }
 
       // 5. Update Twitter tags
       setMetaProperty('twitter:card', 'summary_large_image', false);

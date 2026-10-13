@@ -150,7 +150,7 @@ function auditSEO(document) {
   }
 
   // 5. Open Graph Tags
-  const ogTags = ['og:title', 'og:description', 'og:url', 'og:type'];
+  const ogTags = ['og:title', 'og:description', 'og:url', 'og:type', 'og:image'];
   const missingOg = [];
   ogTags.forEach(tag => {
     if (!document.querySelector(`meta[property="${tag}"]`)) {
@@ -164,7 +164,7 @@ function auditSEO(document) {
   }
 
   // 6. Twitter Meta Tags
-  const twitterTags = ['twitter:card', 'twitter:title', 'twitter:description'];
+  const twitterTags = ['twitter:card', 'twitter:title', 'twitter:description', 'twitter:image'];
   const missingTwitter = [];
   twitterTags.forEach(tag => {
     if (!document.querySelector(`meta[name="${tag}"]`) && !document.querySelector(`meta[property="${tag}"]`)) {
