@@ -260,7 +260,7 @@ img {
 .nav-list {
   display: flex;
   list-style: none;
-  gap: var(--space-xl);
+  gap: clamp(0.6rem, 1.35vw, 1.75rem);
   align-items: center;
 }
 
@@ -2483,3 +2483,622 @@ body.dark-theme .step-content code {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ==========================================================================
+   ENDORSEMENTS SECTION & SPOTLIGHT
+   ========================================================================== */
+.endorsements-header-section {
+  max-width: 820px;
+  margin: 0 auto var(--space-2xl);
+}
+
+.endorsement-filter-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+/* Featured Organization Card (Takoma For All) */
+.endorsements-featured-banner {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 240, 242, 0.9) 100%);
+  border: 1.5px solid rgba(var(--color-primary-rgb), 0.18);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-speed) var(--transition-ease),
+    box-shadow var(--transition-speed) var(--transition-ease),
+    border-color var(--transition-speed) var(--transition-ease);
+}
+
+.endorsements-featured-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 50%, var(--color-rose-light) 100%);
+}
+
+.endorsements-featured-banner:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(var(--color-primary-rgb), 0.35);
+}
+
+body.dark-theme .endorsements-featured-banner {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(45, 26, 36, 0.8) 100%);
+  border-color: rgba(240, 159, 170, 0.2);
+}
+
+.featured-org-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 14px;
+  border-radius: 100px;
+  margin-bottom: var(--space-lg);
+  box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.25);
+}
+
+body.dark-theme .featured-org-badge {
+  background-color: var(--color-accent);
+  color: #0F172A;
+}
+
+.featured-org-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.featured-org-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.featured-afscme-logo-frame {
+  width: 100%;
+  max-width: 250px;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 3px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s var(--transition-ease), box-shadow 0.4s var(--transition-ease);
+}
+
+.endorsements-featured-banner:hover .featured-afscme-logo-frame {
+  transform: scale(1.03) rotate(-0.5deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-theme .featured-afscme-logo-frame {
+  background-color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.featured-afscme-logo {
+  width: 100%;
+  height: auto;
+  max-height: 155px;
+  object-fit: contain;
+  display: block;
+}
+
+.featured-org-title {
+  font-size: 1.95rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+  letter-spacing: -0.5px;
+}
+
+body.dark-theme .featured-org-title {
+  color: #FFFFFF;
+}
+
+.endorsement-tag-badge {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: rgba(var(--color-primary-rgb), 0.08);
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: var(--space-md);
+}
+
+body.dark-theme .endorsement-tag-badge {
+  background-color: rgba(240, 159, 170, 0.15);
+  color: var(--color-accent);
+}
+
+.featured-statement-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-main);
+  margin-bottom: var(--space-md);
+}
+
+.featured-endorsement-action-box {
+  background-color: rgba(var(--color-primary-rgb), 0.05);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+body.dark-theme .featured-endorsement-action-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--color-accent);
+}
+
+.endorsement-action-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+body.dark-theme .endorsement-action-label {
+  color: var(--color-accent);
+}
+
+.featured-endorsement-summary {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 0;
+}
+
+.featured-org-actions {
+  margin-top: var(--space-md);
+}
+
+/* Takoma For All Grid Card & Testimonials */
+.endorsement-card-span-2 {
+  grid-column: 1 / -1;
+}
+
+.endorsement-org-logo-wrapper {
+  background: #FFFFFF !important;
+  padding: 4px;
+}
+
+.endorsement-org-avatar {
+  object-fit: contain !important;
+  background: #FFFFFF;
+}
+
+.endorsement-member-testimonials {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.member-quote-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.member-quote-item {
+  background-color: rgba(var(--color-accent-rgb), 0.07);
+  border-left: 3px solid var(--color-accent);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+body.dark-theme .member-quote-item {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.member-quote-text {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-main);
+  margin-bottom: 0;
+  line-height: 1.55;
+}
+
+.org-card-footer {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--bg-card-border);
+}
+
+.endorsement-website-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.endorsement-website-link:hover {
+  color: var(--color-accent);
+  transform: translateX(3px);
+}
+
+body.dark-theme .endorsement-website-link {
+  color: var(--color-accent);
+}
+
+/* Endorsements Cards Grid */
+.endorsements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.endorsement-card {
+  background-color: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform var(--transition-speed) var(--transition-ease),
+    box-shadow var(--transition-speed) var(--transition-ease),
+    border-color var(--transition-speed) var(--transition-ease);
+}
+
+.endorsement-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.endorsement-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(var(--color-accent-rgb), 0.25);
+}
+
+.endorsement-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Header with Headshot Avatar */
+.endorsement-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.endorsement-avatar-wrapper {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.endorsement-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background-color: var(--bg-main);
+  border: 2px solid var(--bg-main);
+  transition: transform 0.3s var(--transition-ease);
+}
+
+.endorsement-card:hover .endorsement-avatar {
+  transform: scale(1.05);
+}
+
+.endorsement-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.endorsement-name {
+  font-size: 1.35rem;
+  color: var(--text-main);
+  margin-bottom: 2px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.endorsement-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.35;
+}
+
+body.dark-theme .endorsement-title {
+  color: var(--color-accent);
+}
+
+.endorsement-subline {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Pull Quote Styling */
+.endorsement-pull-quote {
+  background: rgba(var(--color-primary-rgb), 0.04);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  padding: 0.9rem 1.1rem;
+  margin: var(--space-sm) 0 var(--space-md);
+  position: relative;
+}
+
+body.dark-theme .endorsement-pull-quote {
+  background: rgba(240, 159, 170, 0.08);
+  border-left-color: var(--color-accent);
+}
+
+.endorsement-pull-quote blockquote,
+.featured-pull-quote {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+body.dark-theme .endorsement-pull-quote blockquote,
+body.dark-theme .featured-pull-quote {
+  color: #F1F5F9;
+}
+
+.featured-pull-quote {
+  font-size: 1.2rem;
+  margin: var(--space-md) 0;
+  padding: 0.75rem 1.25rem;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+body.dark-theme .featured-pull-quote {
+  background: rgba(240, 159, 170, 0.12);
+  border-left-color: var(--color-accent);
+}
+
+/* Endorsement Card Body (Full Statement) */
+.endorsement-card-body {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-main);
+}
+
+.endorsement-card-body p {
+  margin-bottom: var(--space-sm);
+}
+
+.endorsement-card-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Call to Action Card at bottom of Endorsements page */
+.endorsements-cta-card {
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.06) 0%, rgba(var(--color-accent-rgb), 0.12) 100%);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-3xl) var(--space-xl);
+  margin-bottom: var(--space-3xl);
+  box-shadow: var(--shadow-sm);
+}
+
+body.dark-theme .endorsements-cta-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 34, 43, 0.8) 100%);
+}
+
+.cta-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 1.85rem;
+  color: var(--text-main);
+  margin-bottom: var(--space-sm);
+}
+
+.cta-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xl);
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* Home View Endorsements Spotlight Strip */
+.endorsements-spotlight-section {
+  padding: var(--space-2xl) 0;
+  margin-bottom: var(--space-2xl);
+}
+
+.endorsements-spotlight-box {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-2xl) var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.spotlight-header {
+  max-width: 650px;
+  margin: 0 auto var(--space-xl);
+}
+
+.spotlight-lead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin-top: var(--space-sm);
+}
+
+body.dark-theme .spotlight-lead {
+  color: var(--color-accent);
+}
+
+.spotlight-logos-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.spotlight-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: rgba(var(--color-primary-rgb), 0.04);
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--bg-card-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.spotlight-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+body.dark-theme .spotlight-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.spotlight-logo-img,
+.spotlight-avatar-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-accent);
+}
+
+.spotlight-afscme-logo {
+  width: 52px;
+  height: 32px;
+  border-radius: var(--border-radius-sm);
+  object-fit: contain;
+  background: #FFFFFF;
+  padding: 2px;
+  border: 1.5px solid var(--color-accent);
+}
+
+.spotlight-tfa-logo {
+  background: #FFFFFF;
+  object-fit: contain;
+}
+
+.spotlight-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.spotlight-cta {
+  margin-top: var(--space-md);
+}
+
+/* Media Queries for Endorsements */
+@media (max-width: 900px) {
+  .featured-org-layout {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-lg);
+  }
+
+  .endorsements-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .spotlight-logos-row {
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 600px) {
+  .endorsements-featured-banner {
+    padding: var(--space-lg);
+  }
+
+  .featured-org-logo {
+    width: 160px;
+    height: 160px;
+  }
+
+  .featured-org-title {
+    font-size: 1.5rem;
+  }
+
+  .endorsement-card {
+    padding: var(--space-lg);
+  }
+
+  .endorsement-card-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .endorsement-pull-quote {
+    padding: 0.75rem;
+  }
+}

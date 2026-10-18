@@ -169,6 +169,11 @@ function generateSitemap(posts) {
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>${siteUrl}/endorsements</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>${siteUrl}/donate</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

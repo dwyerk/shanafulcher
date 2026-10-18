@@ -15,6 +15,7 @@ const routes = {
   '/': 'view-home',
   '/about': 'view-about',
   '/priorities': 'view-priorities',
+  '/endorsements': 'view-endorsements',
   '/updates': 'view-updates',
   '/get-involved': 'view-get-involved',
   '/contact': 'view-contact',
@@ -26,6 +27,7 @@ const pageTitles = {
   'view-home': 'Shana Fulcher for City Council | Home',
   'view-about': 'Shana Fulcher for City Council | About Shana',
   'view-priorities': 'Shana Fulcher for City Council | Priorities',
+  'view-endorsements': 'Shana Fulcher for City Council | Endorsements',
   'view-updates': 'Shana Fulcher for City Council | Campaign Updates',
   'view-get-involved': 'Shana Fulcher for City Council | Join the Campaign',
   'view-contact': 'Shana Fulcher for City Council | Contact Shana',
@@ -90,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRouter();
   initMobileMenu();
   loadBlogData();
+  setupEndorsementsControls();
   setupFormSubmissions();
   setupScrollAnimations();
   setupVenmoCopy();
@@ -736,4 +739,29 @@ function optimizeImages(container) {
   } catch (e) {
     console.error('Error optimizing images in container:', e);
   }
+}
+
+/* ==========================================================================
+   ENDORSEMENTS FILTER CONTROLS
+   ========================================================================== */
+function setupEndorsementsControls() {
+  const filterPills = document.querySelectorAll('[data-endorsement-filter]');
+  const filterableItems = document.querySelectorAll('.endorsement-card, .endorsements-featured-banner');
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const targetFilter = pill.getAttribute('data-endorsement-filter');
+
+      filterableItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        if (targetFilter === 'all' || itemCategory === targetFilter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
 }
